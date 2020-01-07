@@ -1,0 +1,188 @@
+---
+title: "Censuses 1801 and 1845"
+author: "Frederikke Bakkestrøm"
+date: "7/1/2020"
+output: word_document
+---
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+read_csv("https://raw.githubusercontent.com/aarhusstadsarkiv/datasets/master/censuses/1845/census-1845-normalized.csv") -> Censuses_1845 
+read.csv("https://raw.githubusercontent.com/aarhusstadsarkiv/datasets/master/censuses/1801/census-1801-normalized.csv") -> Censuses_1801
+```
+
+
+```{r}
+head(Censuses_1801)
+```
+
+```{r}
+head(Censuses_1845)
+```
+
+```{r}
+Censuses_1801 %>%
+  filter(amt == "Århus") %>%
+  count(civilstand, sort = TRUE) %>%
+  top_n(4) %>%
+  mutate(civilstand = reorder(civilstand, n)) %>%
+  ggplot(aes(x = civilstand, y = n)) +
+  geom_col() +
+  xlab(NULL) +
+  coord_flip() +
+      labs(x = "Marital Status",
+      y = "Total amount of men and women in Århus",
+      title = "Marital Statuses in 1801: Århus")
+```
+
+
+
+
+```{r}
+Censuses_1801 %>%
+  filter(amt == "Århus") %>%
+  filter(koen == "kvinde") %>%
+  count(civilstand, sort = TRUE) %>%
+  top_n(3) %>% 
+  mutate(civilstand = reorder(civilstand, n)) %>% 
+  ggplot(aes(x = civilstand, y = n)) +
+  geom_col() +
+  xlab(NULL) +
+  coord_flip() +
+      labs(x = "Marital Status",
+      y = "Total amount of women in Aarhus",
+      title = "Marital Statuses in Aarhus 1801: Women")
+```
+
+
+```{r}
+Censuses_1801 %>%
+  filter(amt == "Århus") %>%
+  filter(koen == "mand") %>%
+  count(civilstand, sort = TRUE) %>%
+  top_n(3) %>% 
+  mutate(civilstand = reorder(civilstand, n)) %>% 
+  ggplot(aes(x = civilstand, y = n)) +
+  geom_col() +
+  xlab(NULL) +
+  coord_flip() +
+      labs(x = "Marital Status",
+      y = "Total amount of men Aarhus",
+      title = "Marital Statuses in Aarhus 1801: Men")
+```
+```{r}
+Censuses_1801 %>%
+  filter(amt == "Århus")%>%
+  filter(alder < 30) %>%
+  filter(koen == "mand") %>%
+  count(civilstand, sort = TRUE) %>%
+  top_n(2) %>%
+  mutate(civilstand = reorder(civilstand, n)) %>%
+  ggplot(aes(x = civilstand, y = n)) +
+  geom_col() +
+  xlab(NULL) +
+  coord_flip() +
+      labs(x = "Marital Status",
+      y = "Total amount of men in Aarhus 1801",
+      title = "Marital Statuses in Aarhus 1801: Men under 30") 
+```
+```{r}
+Censuses_1801 %>%
+  filter(amt == "Århus")%>%
+  filter(alder < 30) %>%
+  filter(koen == "kvinde") %>%
+  count(civilstand, sort = TRUE) %>%
+  top_n(2) %>%
+  mutate(civilstand = reorder(civilstand, n)) %>%
+  ggplot(aes(x = civilstand, y = n)) +
+  geom_col() +
+  xlab(NULL) +
+  coord_flip() +
+      labs(x = "Marital Status",
+      y = "Total amount of Women in 1801",
+      title = "Marital Statuses in Aarhus 1801: Women under 30") 
+```
+
+
+```{r}
+Censuses_1845 %>%
+  filter(county == "Århus") %>%
+  count(marital_status, sort = TRUE) %>%
+  top_n(3) %>%
+  mutate(marital_status = reorder(marital_status, n)) %>%
+  ggplot(aes(x = marital_status, y = n)) +
+  geom_col() +
+  xlab(NULL) +
+  coord_flip() +
+      labs(x = "Marital Status",
+      y = "Total amount of men and women",
+      title = "Marital Statuses in Aarhus 1845: Men and women") 
+```   
+
+```{r}
+Censuses_1845 %>%
+  filter(county == "Århus") %>%
+  filter(gender == "kvinde") %>%
+  count(marital_status, sort = TRUE) %>%
+  top_n(3) %>%
+  mutate(marital_status = reorder(marital_status, n)) %>%
+  ggplot(aes(x = marital_status, y = n)) +
+  geom_col() +
+  xlab(NULL) +
+  coord_flip() +
+      labs(x = "Marital Status",
+      y = "Total amount of women",
+      title = "Marital Statuses in Aarhus 1845: Women") 
+```  
+
+```{r}
+Censuses_1845 %>%
+  filter(county == "Århus") %>%
+  filter(gender == "mand") %>%
+  count(marital_status, sort = TRUE) %>%
+  top_n(3) %>%
+  mutate(marital_status = reorder(marital_status, n)) %>%
+  ggplot(aes(x = marital_status, y = n)) +
+  geom_col() +
+  xlab(NULL) +
+  coord_flip() +
+      labs(x = "Marital Status",
+      y = "Total amount of men",
+      title = "Marital Statuses in Aarhus 1845: Men") 
+```  
+```{r}
+Censuses_1845 %>%
+  filter(county == "Århus") %>%
+  filter(age < 30) %>%
+  filter(gender == "mand") %>%
+  count(marital_status, sort = TRUE) %>%
+  top_n(2) %>%
+  mutate(marital_status = reorder(marital_status, n)) %>%
+  ggplot(aes(x = marital_status, y = n)) +
+  geom_col() +
+  xlab(NULL) +
+  coord_flip() +
+      labs(x = "Marital Status",
+      y = "Total amount of men",
+      title = "Marital Statuses in Aarhus 1845: Men under 30") 
+```  
+
+```{r}
+Censuses_1845 %>%
+  filter(county == "Århus") %>%
+  filter(age < 30) %>%
+  filter(gender == "kvinde") %>%
+  count(marital_status, sort = TRUE) %>%
+  top_n(2) %>%
+  mutate(marital_status = reorder(marital_status, n)) %>%
+  ggplot(aes(x = marital_status, y = n)) +
+  geom_col() +
+  xlab(NULL) +
+  coord_flip() +
+      labs(x = "Marital Status",
+      y = "Total amount of women",
+      title = "Marital Statuses in Aarhus 1845: Women under 30") 
+```   
